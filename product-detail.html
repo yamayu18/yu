@@ -48,9 +48,82 @@
     }
 
     @media (max-width: 768px) {
+      /* スマホ：拡大を解除して画面幅に収める */
       .pd-carousel-shell {
-        transform: scale(1.05);
-        transform-origin: center top;
+        transform: none !important;
+        transform-origin: initial !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+      }
+      
+      /* Product First Viewセクションの調整 */
+      section.w-full.py-12 {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+      }
+      
+      section .max-w-6xl {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+      }
+      
+      /* グリッドのギャップを調整 */
+      section .grid.gap-12 {
+        gap: 1rem !important;
+      }
+      
+      /* 商品写真カルーセルの親要素も調整 */
+      section .grid > div:first-child {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+        margin-top: 0 !important;
+      }
+      
+      /* 白い背景の要素も非表示または調整 */
+      section .grid > div:first-child > div.absolute {
+        display: none !important;
+      }
+      
+      /* メインカルーセル画像のサイズ調整（正方形で画面幅に収める） */
+      #product-carousel {
+        width: 100% !important;
+        max-width: 100% !important;
+        aspect-ratio: 1 / 1 !important;
+        margin: 0 auto !important;
+        border-radius: 0 !important;
+      }
+      
+      /* カルーセル内の画像が適切に表示されるように */
+      .product-main-image {
+        width: 100% !important;
+        height: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      
+      .product-main-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        display: block !important;
+      }
+      
+      /* 背景が白い画像コンテナも調整 */
+      .product-main-image[style*="background: white"] {
+        background: white !important;
+      }
+      
+      /* メインカルーセルの背景を削除 */
+      .bg-white.rounded-lg.mb-4 {
+        background: transparent !important;
+        margin-bottom: 0.75rem !important;
       }
 
       /* 購入エリア（スマホだけ詰める） */
@@ -85,15 +158,18 @@
       .pd-thumbnails {
         display: grid !important;
         grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-        gap: 8px !important;
+        gap: 0.5rem !important;
         justify-content: initial !important;
         overflow: visible !important;
         padding-bottom: 0 !important;
+        margin-top: 0.75rem !important;
       }
       .pd-thumbnails .product-thumbnail {
         width: 100% !important;
         height: auto !important;
         aspect-ratio: 1 / 1 !important;
+        border-width: 2px !important;
+        border-radius: 4px !important;
       }
       .pd-thumbnails .product-thumbnail img {
         width: 100% !important;
@@ -101,10 +177,22 @@
         object-fit: cover !important;
         display: block !important;
       }
+      
+      /* 選択中のサムネイルを強調 */
+      .pd-thumbnails .product-thumbnail.border-gray-800 {
+        border-color: #2563eb !important;
+        border-width: 3px !important;
+      }
 
-      /* スワイプ操作を自然に（縦スクロール優先、横スワイプ検知） */
+      /* スワイプ操作を自然に（横スワイプを許可） */
       #product-carousel {
-        touch-action: pan-y;
+        touch-action: pan-x pan-y;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      /* スワイプ時の視覚的フィードバック */
+      #product-carousel-inner {
+        transition: transform 0.3s ease-out !important;
       }
 
       /* カート：スマホは行を縦積みで見やすく */
