@@ -68,31 +68,25 @@
       margin: 0 auto;
     }
     
-    /* 固定Q&Aボタン */
-    .qa-button {
-      position: fixed;
-      bottom: 24px;
-      left: 24px;
-      z-index: 50;
-      background-color: #4B5563;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    
-    .qa-button:hover {
-      background-color: #374151;
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    }
 
     /* スマホ最適化（Mac表示は維持） */
     @media (max-width: 768px) {
       .hero-height {
-        height: 60vh !important;
-        min-height: 420px !important;
+        height: 50vh !important;
+        min-height: 400px !important;
+        max-height: 500px !important;
+      }
+
+      /* スマホ：ヒーロー画像の最適化 */
+      .hero-slide {
+        overflow: hidden !important;
+      }
+      .hero-image {
+        object-fit: cover !important;
+        object-position: center center !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
       }
 
       /* スマホ：商品画像の左寄せ/拡大を弱めて崩れ防止（Macは維持） */
@@ -195,41 +189,41 @@
     <div class="relative w-full h-full overflow-hidden">
       <div id="hero-carousel" class="flex transition-transform duration-1000 ease-in-out h-full" style="transform: translateX(0%);">
         <!-- スライド1: 家族で使える -->
-        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50">
+        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50 hero-slide">
           <img 
             src="./images/carousel-family.png" 
             alt="百花ゼロジェル 家族で使える" 
-            class="w-full h-full object-contain"
+            class="w-full h-full object-contain hero-image"
             style="max-width: 100%; max-height: 100%; object-position: center;"
           />
         </div>
 
         <!-- スライド2: 木曽檜歯磨きジェル -->
-        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50">
+        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50 hero-slide">
           <img 
             src="./images/carousel-kiso.png" 
             alt="木曽檜歯磨きジェル 天然の力で磨く" 
-            class="w-full h-full object-contain"
+            class="w-full h-full object-contain hero-image"
             style="max-width: 100%; max-height: 100%; object-position: center;"
           />
         </div>
 
         <!-- スライド3 -->
-        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50">
+        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50 hero-slide">
           <img 
             src="./images/carousel-1.png" 
             alt="百花ゼロジェル 自然な背景" 
-            class="w-full h-full object-contain"
+            class="w-full h-full object-contain hero-image"
             style="max-width: 100%; max-height: 100%; object-position: center;"
           />
         </div>
 
         <!-- スライド4 -->
-        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50">
+        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50 hero-slide">
           <img 
             src="./images/carousel-3.png" 
             alt="百花ゼロジェル 自然な背景" 
-            class="w-full h-full object-contain"
+            class="w-full h-full object-contain hero-image"
             style="max-width: 100%; max-height: 100%; object-position: center;"
           />
         </div>
@@ -890,11 +884,6 @@
     </div>
   </footer>
 
-  <!-- 固定Q&Aボタン -->
-  <div class="qa-button">
-    <div class="text-sm font-light">Q&A</div>
-    <div class="text-xs mt-1">チャットでお答え</div>
-  </div>
 
   <script>
     // カート管理機能

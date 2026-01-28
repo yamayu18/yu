@@ -81,20 +81,30 @@
         white-space: nowrap;
       }
 
-      /* サムネ一覧：スマホは横スクロール（折り返しなし） */
+      /* サムネ一覧：スマホは全枚数が見えるように2段表示（8枚=4列×2段） */
       .pd-thumbnails {
-        flex-wrap: nowrap !important;
-        justify-content: flex-start !important;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 12px !important;
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+        justify-content: initial !important;
+        overflow: visible !important;
+        padding-bottom: 0 !important;
       }
-      .pd-thumbnails::-webkit-scrollbar {
-        height: 6px;
+      .pd-thumbnails .product-thumbnail {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1 !important;
       }
-      .pd-thumbnails::-webkit-scrollbar-thumb {
-        background: rgba(0,0,0,0.15);
-        border-radius: 999px;
+      .pd-thumbnails .product-thumbnail img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+      }
+
+      /* スワイプ操作を自然に（縦スクロール優先、横スワイプ検知） */
+      #product-carousel {
+        touch-action: pan-y;
       }
 
       /* カート：スマホは行を縦積みで見やすく */
@@ -577,10 +587,7 @@
           <span class="font-medium">基剤:</span> ヒノキ水
         </div>
         <div>
-          <span class="font-medium">湿潤剤:</span> ソルビトール、グリセリン
-        </div>
-        <div>
-          水
+          <span class="font-medium">湿潤剤:</span> ソルビトール、グリセリン、水
         </div>
         <div>
           <span class="font-medium">甘味剤:</span> キシリトール
@@ -766,6 +773,8 @@
       const totalSlides = 8;
       const carousel = document.getElementById('product-carousel-inner');
       const thumbnails = document.querySelectorAll('.product-thumbnail');
+      const carouselShell = document.getElementById('product-carousel');
+      let didSwipeRecently = false;
 
       function updateCarousel() {
         if (carousel) {
@@ -784,11 +793,15 @@
         });
       }
 
+      function goToSlide(nextIndex) {
+        currentSlide = (nextIndex + totalSlides) % totalSlides;
+        updateCarousel();
+      }
+
       // サムネイルクリック
       thumbnails.forEach((thumbnail, index) => {
         thumbnail.addEventListener('click', () => {
-          currentSlide = index;
-          updateCarousel();
+          goToSlide(index);
         });
       });
 
@@ -804,6 +817,8 @@
       // メイン画像クリックでモーダルを開く
       mainImages.forEach((imageContainer) => {
         imageContainer.addEventListener('click', function() {
+          // スワイプ直後の「タップ判定」を無視（意図せずモーダルが開くのを防止）
+          if (didSwipeRecently) return;
           const imageSrc = this.getAttribute('data-image');
           if (imageSrc) {
             modalImage.src = imageSrc;
@@ -812,6 +827,64 @@
           }
         });
       });
+
+      // スマホ：指で左右スワイプして次/前へ
+      if (carouselShell) {
+        let startX = 0;
+        let startY = 0;
+        let tracking = false;
+        let lockedAxis = null; // 'x' | 'y' | null
+
+        const SWIPE_THRESHOLD = 35; // px
+
+        carouselShell.addEventListener('touchstart', (e) => {
+          if (!e.touches || e.touches.length !== 1) return;
+          tracking = true;
+          lockedAxis = null;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+        }, { passive: true });
+
+        carouselShell.addEventListener('touchmove', (e) => {
+          if (!tracking || !e.touches || e.touches.length !== 1) return;
+          const dx = e.touches[0].clientX - startX;
+          const dy = e.touches[0].clientY - startY;
+
+          // どちら方向のジェスチャーか確定
+          if (!lockedAxis) {
+            if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
+              lockedAxis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+            }
+          }
+
+          // 横スワイプと判断した場合のみ、縦スクロールを抑制
+          if (lockedAxis === 'x') {
+            e.preventDefault();
+          }
+        }, { passive: false });
+
+        carouselShell.addEventListener('touchend', (e) => {
+          if (!tracking) return;
+          tracking = false;
+
+          const touch = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0] : null;
+          if (!touch) return;
+
+          const dx = touch.clientX - startX;
+          const dy = touch.clientY - startY;
+
+          // 縦スクロール寄りなら何もしない
+          if (Math.abs(dy) > Math.abs(dx)) return;
+
+          if (Math.abs(dx) >= SWIPE_THRESHOLD) {
+            didSwipeRecently = true;
+            // 左へスワイプ => 次へ / 右へスワイプ => 前へ
+            if (dx < 0) goToSlide(currentSlide + 1);
+            else goToSlide(currentSlide - 1);
+            window.setTimeout(() => { didSwipeRecently = false; }, 250);
+          }
+        }, { passive: true });
+      }
 
       // ×ボタンでモーダルを閉じる
       closeModal.addEventListener('click', function() {
