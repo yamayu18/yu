@@ -71,22 +71,88 @@
 
     /* スマホ最適化（Mac表示は維持） */
     @media (max-width: 768px) {
+      /* ヒーローセクションの高さを自動調整（画像全体が表示されるように） */
       .hero-height {
         height: 50vh !important;
-        min-height: 400px !important;
-        max-height: 500px !important;
+        min-height: 300px !important;
+        max-height: 400px !important;
+      }
+      
+      section.hero-height[style*="height"] {
+        height: 50vh !important;
+        min-height: 300px !important;
+        max-height: 400px !important;
       }
 
-      /* スマホ：ヒーロー画像の最適化 */
-      .hero-slide {
+      /* スマホ：ヒーロー画像の最適化（全体が表示されるように） */
+      section.hero-height > div {
+        height: 100% !important;
         overflow: hidden !important;
       }
+      
+      #hero-carousel {
+        height: 100% !important;
+        display: flex !important;
+      }
+      
+      .hero-slide {
+        min-width: 100% !important;
+        width: 100% !important;
+        height: 100% !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: hidden !important;
+      }
+      
       .hero-image {
-        object-fit: cover !important;
+        object-fit: contain !important;
         object-position: center center !important;
         width: 100% !important;
         height: 100% !important;
         display: block !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+      }
+      
+      /* 矢印ボタンの位置調整 */
+      #carousel-prev,
+      #carousel-next {
+        position: absolute !important;
+        z-index: 20 !important;
+      }
+      
+      /* インジケーターの位置調整 */
+      section.hero-height .absolute.bottom-6 {
+        bottom: 0.5rem !important;
+      }
+      
+      /* 3つのポイント：スマホでも横一列に表示 */
+      .icon-circle {
+        width: 48px !important;
+        height: 48px !important;
+        margin: 0 auto 0.5rem auto !important;
+      }
+      
+      section .grid.grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 0.5rem !important;
+      }
+      
+      section .grid.grid-cols-3 > div {
+        padding: 0.25rem !important;
+      }
+      
+      section .grid.grid-cols-3 h3 {
+        font-size: 0.75rem !important;
+        line-height: 1.2 !important;
+        margin-bottom: 0.25rem !important;
+      }
+      
+      section .grid.grid-cols-3 p {
+        font-size: 0.625rem !important;
+        line-height: 1.3 !important;
       }
 
       /* スマホ：商品画像の左寄せ/拡大を弱めて崩れ防止（Macは維持） */
@@ -407,53 +473,53 @@
   </script>
 
   <!-- Features Section (3つの特徴) -->
-  <section class="w-full py-20 md:py-32 bg-[#EFEFE7]">
-    <div class="max-w-7xl mx-auto px-4 md:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-20">
+  <section class="w-full py-12 md:py-32 bg-[#EFEFE7]">
+    <div class="max-w-7xl mx-auto px-2 md:px-8">
+      <div class="grid grid-cols-3 md:grid-cols-3 gap-2 md:gap-20">
         <!-- 特徴1 -->
-        <div class="text-center space-y-6">
+        <div class="text-center space-y-2 md:space-y-6">
           <div class="icon-circle">
-            <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <svg class="w-5 h-5 md:w-8 md:h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
             </svg>
           </div>
-          <h3 class="text-lg md:text-xl font-light text-gray-800">
+          <h3 class="text-xs md:text-xl font-light text-gray-800 leading-tight">
             やさしい使い心地
           </h3>
-          <p class="text-sm md:text-base text-gray-700 leading-relaxed max-w-xs mx-auto">
-            刺激を感じやすい方にも、<br>
+          <p class="text-[10px] md:text-base text-gray-700 leading-tight md:leading-relaxed px-1 md:px-0">
+            刺激を感じやすい方にも、<span class="hidden md:inline"><br></span>
             家族みんなにも使える設計です。
           </p>
         </div>
 
         <!-- 特徴2 -->
-        <div class="text-center space-y-6">
+        <div class="text-center space-y-2 md:space-y-6">
           <div class="icon-circle">
-            <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <svg class="w-5 h-5 md:w-8 md:h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
             </svg>
           </div>
-          <h3 class="text-lg md:text-xl font-light text-gray-800">
+          <h3 class="text-xs md:text-xl font-light text-gray-800 leading-tight">
             シンプルな設計
           </h3>
-          <p class="text-sm md:text-base text-gray-700 leading-relaxed max-w-xs mx-auto">
-            余計なものは足さない。<br>
+          <p class="text-[10px] md:text-base text-gray-700 leading-tight md:leading-relaxed px-1 md:px-0">
+            余計なものは足さない。<span class="hidden md:inline"><br></span>
             必要なものだけを選びました。
           </p>
         </div>
 
         <!-- 特徴3 -->
-        <div class="text-center space-y-6">
+        <div class="text-center space-y-2 md:space-y-6">
           <div class="icon-circle">
-            <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <svg class="w-5 h-5 md:w-8 md:h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
             </svg>
           </div>
-          <h3 class="text-lg md:text-xl font-light text-gray-800">
+          <h3 class="text-xs md:text-xl font-light text-gray-800 leading-tight">
             医療法人の姿勢
           </h3>
-          <p class="text-sm md:text-base text-gray-700 leading-relaxed max-w-xs mx-auto">
-            売るためではなく、<br>
+          <p class="text-[10px] md:text-base text-gray-700 leading-tight md:leading-relaxed px-1 md:px-0">
+            売るためではなく、<span class="hidden md:inline"><br></span>
             必要だったから作りました。
           </p>
         </div>
