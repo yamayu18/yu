@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>百花ジェル | 医療法人百花繚乱</title>
+  <meta name="description" content="泡立たないジェルで、口の中までやさしく整える。医療法人監修の日用品。">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #333;
+      background-color: #EFEFE7;
+      line-height: 1.8;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .brand-beige { background-color: #F5F3F0; }
+    .brand-cream { background-color: #FAF8F5; }
+    .brand-brown { background-color: #8B7355; }
+    .brand-dark { background-color: #5C4A3A; }
+    
+    .text-brand-brown { color: #8B7355; }
+    .bg-brand-brown { background-color: #8B7355; }
+    .bg-brand-dark { background-color: #5C4A3A; }
+    .bg-brand-cream { background-color: #FAF8F5; }
+    .bg-brand-beige { background-color: #F5F3F0; }
+    
+    .hover\:bg-brand-dark:hover {
+      background-color: #5C4A3A;
+    }
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    /* アイコン用 */
+    .icon-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid #4B5563;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+    
+    /* 固定Q&Aボタン */
+    .qa-button {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 50;
+      background-color: #4B5563;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .qa-button:hover {
+      background-color: #374151;
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* スマホ最適化（Mac表示は維持） */
+    @media (max-width: 768px) {
+      .hero-height {
+        height: 60vh !important;
+        min-height: 420px !important;
+      }
+
+      /* スマホ：商品画像の左寄せ/拡大を弱めて崩れ防止（Macは維持） */
+      .lp-product-media {
+        margin-left: -0.5rem !important;
+        margin-top: -0.75rem !important;
+      }
+      .lp-product-shell {
+        transform: scale(1.05) !important;
+        transform-origin: center top !important;
+      }
+
+      /* スマホ：カート表示を縦積み */
+      #cart-content .cart-header { display: none; }
+      #cart-content .grid.grid-cols-12 {
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem !important;
+      }
+      #cart-content .grid.grid-cols-12 > div {
+        text-align: left !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="w-full py-6 px-4 md:px-8 bg-[#EFEFE7] sticky top-0 z-40 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center justify-between">
+        <!-- ハンバーガーメニュー -->
+        <button id="menu-toggle" class="z-50" aria-label="メニュー">
+          <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        
+        <!-- ロゴ -->
+        <h1 class="text-xl md:text-2xl font-light tracking-widest text-gray-700">
+          医療法人百花繚乱
+        </h1>
+        
+        <!-- カート -->
+        <div class="flex items-center gap-4">
+          <button id="cart-button" aria-label="カート" class="relative">
+            <svg class="w-7 h-7 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+            </svg>
+            <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-medium rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- メニューオーバーレイ -->
+      <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+      <!-- サイドメニュー -->
+      <div id="side-menu" class="fixed left-0 top-0 h-full w-64 bg-white shadow-xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-8">
+            <h2 class="text-lg font-light text-gray-800">メニュー</h2>
+            <button id="menu-close" class="text-gray-700 hover:text-gray-900">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <nav class="space-y-4">
+            <a href="index.html" class="block text-gray-700 hover:text-gray-900 font-light py-2 border-b border-gray-100">ホーム</a>
+            <a href="product-detail.html" class="block text-gray-700 hover:text-gray-900 font-light py-2 border-b border-gray-100">商品詳細</a>
+            <a href="subscription-detail.html" class="block text-gray-700 hover:text-gray-900 font-light py-2 border-b border-gray-100">定期お届け便</a>
+            <a href="#" class="block text-gray-700 hover:text-gray-900 font-light py-2 border-b border-gray-100">百花ジェルについて</a>
+            <a href="#" class="block text-gray-700 hover:text-gray-900 font-light py-2 border-b border-gray-100">よくある質問</a>
+            <a href="contact.html" class="block text-gray-700 hover:text-gray-900 font-light py-2 border-b border-gray-100">お問い合わせ</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- カートモーダル -->
+  <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden"></div>
+  <div id="cart-modal" class="fixed top-0 right-0 h-full w-full md:w-[500px] bg-white shadow-xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-light text-gray-800">ショッピングカート</h2>
+        <button id="cart-close" class="text-gray-700 hover:text-gray-900">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div id="cart-content">
+        <!-- カートの内容がここに動的に表示されます -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section - Carousel -->
+  <section class="w-full relative overflow-hidden hero-height" style="height: 70vh; min-height: 550px; max-height: 850px;">
+    <div class="relative w-full h-full overflow-hidden">
+      <div id="hero-carousel" class="flex transition-transform duration-1000 ease-in-out h-full" style="transform: translateX(0%);">
+        <!-- スライド1: 家族で使える -->
+        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50">
+          <img 
+            src="images/carousel-family.png" 
+            alt="百花ゼロジェル 家族で使える" 
+            class="w-full h-full object-contain"
+            style="max-width: 100%; max-height: 100%; object-position: center;"
+          />
+        </div>
+
+        <!-- スライド2: 木曽檜歯磨きジェル -->
+        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50">
+          <img 
+            src="images/carousel-kiso.png" 
+            alt="木曽檜歯磨きジェル 天然の力で磨く" 
+            class="w-full h-full object-contain"
+            style="max-width: 100%; max-height: 100%; object-position: center;"
+          />
+        </div>
+
+        <!-- スライド3 -->
+        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50">
+          <img 
+            src="images/carousel-1.png" 
+            alt="百花ゼロジェル 自然な背景" 
+            class="w-full h-full object-contain"
+            style="max-width: 100%; max-height: 100%; object-position: center;"
+          />
+        </div>
+
+        <!-- スライド4 -->
+        <div class="min-w-full h-full flex-shrink-0 relative flex items-center justify-center bg-gray-50">
+          <img 
+            src="images/carousel-3.png" 
+            alt="百花ゼロジェル 自然な背景" 
+            class="w-full h-full object-contain"
+            style="max-width: 100%; max-height: 100%; object-position: center;"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- 左右の矢印ボタン -->
+    <button id="carousel-prev" class="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white/70 hover:bg-white/90 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm opacity-60 hover:opacity-100" aria-label="前のスライド">
+      <svg class="w-5 h-5 md:w-6 md:h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
+    <button id="carousel-next" class="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white/70 hover:bg-white/90 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm opacity-60 hover:opacity-100" aria-label="次のスライド">
+      <svg class="w-5 h-5 md:w-6 md:h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
+
+    <!-- インジケーター -->
+    <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
+      <button class="hero-indicator w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all duration-300" data-slide="0" aria-label="スライド 1 に移動"></button>
+      <button class="hero-indicator w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all duration-300" data-slide="1" aria-label="スライド 2 に移動"></button>
+      <button class="hero-indicator w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all duration-300" data-slide="2" aria-label="スライド 3 に移動"></button>
+      <button class="hero-indicator w-2 h-2 rounded-full bg-gray-400 hover:bg-gray-600 transition-all duration-300" data-slide="3" aria-label="スライド 4 に移動"></button>
+    </div>
+  </section>
+
+  <script>
+    // カルーセル機能
+    let currentSlide = 0;
+    const totalSlides = 4;
+    const carousel = document.getElementById('hero-carousel');
+    const indicators = document.querySelectorAll('.hero-indicator');
+
+    function updateCarousel() {
+      carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      // インジケーターの更新
+      indicators.forEach((indicator, index) => {
+        if (index === currentSlide) {
+          indicator.classList.remove('bg-gray-400');
+          indicator.classList.add('bg-gray-800', 'w-8');
+        } else {
+          indicator.classList.remove('bg-gray-800', 'w-8');
+          indicator.classList.add('bg-gray-400');
+        }
+      });
+    }
+
+    // インジケータークリック
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        currentSlide = index;
+        updateCarousel();
+      });
+    });
+
+    // 左右の矢印ボタン
+    const prevButton = document.getElementById('carousel-prev');
+    const nextButton = document.getElementById('carousel-next');
+
+    if (prevButton) {
+      prevButton.addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+      });
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateCarousel();
+      });
+    }
+
+    // 自動スライド（5秒ごと）
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarousel();
+    }, 5000);
+
+    // 数量選択機能
+    document.addEventListener('DOMContentLoaded', function() {
+      const quantitySelectors = document.querySelectorAll('.quantity-selector');
+      const totalPriceElement = document.getElementById('total-price');
+      const unitPrice = 2960; // 単価
+
+      function updateTotalPrice(quantity) {
+        if (totalPriceElement) {
+          const total = unitPrice * quantity;
+          totalPriceElement.textContent = '¥' + total.toLocaleString();
+        }
+      }
+
+      quantitySelectors.forEach((selector) => {
+        const decreaseButton = selector.querySelector('.quantity-decrease');
+        const increaseButton = selector.querySelector('.quantity-increase');
+        const quantityInput = selector.querySelector('.quantity-input');
+
+        if (decreaseButton && increaseButton && quantityInput) {
+          // 数量変更時に合計を更新
+          quantityInput.addEventListener('input', function() {
+            const value = parseInt(this.value) || 1;
+            updateTotalPrice(value);
+          });
+
+          quantityInput.addEventListener('change', function() {
+            const value = parseInt(this.value) || 1;
+            updateTotalPrice(value);
+          });
+
+          decreaseButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            let value = parseInt(quantityInput.value) || 1;
+            if (value > 1) {
+              value--;
+              quantityInput.value = value;
+              updateTotalPrice(value);
+              quantityInput.dispatchEvent(new Event('input', { bubbles: true }));
+              quantityInput.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            return false;
+          });
+
+          increaseButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            let value = parseInt(quantityInput.value) || 1;
+            value++;
+            quantityInput.value = value;
+            updateTotalPrice(value);
+            quantityInput.dispatchEvent(new Event('input', { bubbles: true }));
+            quantityInput.dispatchEvent(new Event('change', { bubbles: true }));
+            return false;
+          });
+        }
+      });
+    });
+
+    // ハンバーガーメニュー機能
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.getElementById('menu-toggle');
+      const menuClose = document.getElementById('menu-close');
+      const sideMenu = document.getElementById('side-menu');
+      const menuOverlay = document.getElementById('menu-overlay');
+
+      function openMenu() {
+        sideMenu.classList.remove('-translate-x-full');
+        menuOverlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+        sideMenu.classList.add('-translate-x-full');
+        menuOverlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      if (menuToggle) {
+        menuToggle.addEventListener('click', openMenu);
+      }
+
+      if (menuClose) {
+        menuClose.addEventListener('click', closeMenu);
+      }
+
+      if (menuOverlay) {
+        menuOverlay.addEventListener('click', closeMenu);
+      }
+
+      // ESCキーでメニューを閉じる
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !sideMenu.classList.contains('-translate-x-full')) {
+          closeMenu();
+        }
+      });
+    });
+  </script>
+
+  <!-- Features Section (3つの特徴) -->
+  <section class="w-full py-20 md:py-32 bg-[#EFEFE7]">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-20">
+        <!-- 特徴1 -->
+        <div class="text-center space-y-6">
+          <div class="icon-circle">
+            <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg md:text-xl font-light text-gray-800">
+            やさしい使い心地
+          </h3>
+          <p class="text-sm md:text-base text-gray-700 leading-relaxed max-w-xs mx-auto">
+            刺激を感じやすい方にも、<br>
+            家族みんなにも使える設計です。
+          </p>
+        </div>
+
+        <!-- 特徴2 -->
+        <div class="text-center space-y-6">
+          <div class="icon-circle">
+            <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg md:text-xl font-light text-gray-800">
+            シンプルな設計
+          </h3>
+          <p class="text-sm md:text-base text-gray-700 leading-relaxed max-w-xs mx-auto">
+            余計なものは足さない。<br>
+            必要なものだけを選びました。
+          </p>
+        </div>
+
+        <!-- 特徴3 -->
+        <div class="text-center space-y-6">
+          <div class="icon-circle">
+            <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg md:text-xl font-light text-gray-800">
+            医療法人の姿勢
+          </h3>
+          <p class="text-sm md:text-base text-gray-700 leading-relaxed max-w-xs mx-auto">
+            売るためではなく、<br>
+            必要だったから作りました。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Section (商品詳細) -->
+  <section id="product" class="w-full pt-8 md:pt-16 pb-20 md:pb-32 bg-white">
+    <div class="max-w-6xl mx-auto px-4 md:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20 items-center">
+        <!-- 商品写真 -->
+        <div class="lp-product-media flex justify-start items-start w-full -ml-20 md:-ml-32 -mt-12 md:-mt-20 overflow-visible">
+          <div class="lp-product-shell relative w-full max-w-sm md:max-w-md" style="transform: scale(1.3); transform-origin: left top;">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+              <img 
+                src="images/product-main.png" 
+                alt="百花ジェル 歯磨きジェル 商品写真" 
+                class="w-full h-auto object-contain rounded"
+                style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; display: block;"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品情報 -->
+        <div class="space-y-6">
+          <div class="space-y-6">
+            <h2 class="text-3xl md:text-4xl font-light text-gray-800 mb-4">
+              百花ジェル
+            </h2>
+            <div class="space-y-3 text-sm md:text-base text-gray-700 font-light leading-relaxed">
+              <p>
+                歯科の視点で考えた、毎日使える口腔ケアジェル。
+              </p>
+              <p>
+                刺激を抑え、口の中をやさしく整える。
+              </p>
+              <p>
+                朝も夜も、家族みんなの習慣に。
+              </p>
+            </div>
+          </div>
+
+          <!-- 価格 -->
+          <div class="pt-4">
+            <p class="text-3xl md:text-4xl font-light text-gray-800">
+              ¥2,960
+              <span class="text-base text-gray-500 ml-2">(税込)</span>
+            </p>
+          </div>
+
+          <!-- 数量選択 -->
+          <div class="flex items-center gap-4 pt-4">
+            <label class="text-sm text-gray-700 font-light">数量</label>
+            <div class="quantity-selector flex items-center border border-gray-300 rounded">
+              <button type="button" class="quantity-decrease px-4 py-2 text-gray-600 hover:bg-gray-50 relative z-20 pointer-events-auto" aria-label="減らす" style="cursor: pointer;">−</button>
+              <input type="number" value="1" min="1" class="quantity-input w-16 text-center border-0 focus:outline-none text-gray-800" />
+              <button type="button" class="quantity-increase px-4 py-2 text-gray-600 hover:bg-gray-50 relative z-20 pointer-events-auto" aria-label="増やす" style="cursor: pointer;">＋</button>
+            </div>
+          </div>
+
+          <!-- 合計 -->
+          <div class="pt-3">
+            <p class="text-base text-gray-700">
+              合計 <span id="total-price" class="text-xl font-light text-gray-800">¥2,960</span>
+            </p>
+          </div>
+
+          <!-- 購入ボタン -->
+          <div class="pt-4 space-y-4">
+            <div class="flex flex-col gap-3">
+              <a href="#" id="normal-purchase-btn" class="inline-block w-full px-12 py-4 bg-gray-800 text-white text-base font-medium tracking-wide rounded-sm hover:bg-gray-900 transition-colors duration-300 text-center shadow-md">
+                購入する
+              </a>
+              <a href="product-detail.html" class="inline-block w-full px-12 py-3 border-2 border-gray-300 text-gray-700 bg-white text-sm font-light tracking-wide rounded-sm hover:border-gray-400 hover:bg-gray-50 transition-colors duration-300 text-center">
+                <div class="font-medium">詳細はこちらのページ</div>
+                <div class="text-xs text-red-500 mt-1">お得な定期便のご案内もこちら</div>
+              </a>
+            </div>
+            <!-- 送料無料 -->
+            <div class="bg-green-50 border border-green-200 rounded px-4 py-2 text-center">
+              <p class="text-sm md:text-base font-medium text-green-700">
+                <span class="inline-block mr-2">🚚</span>
+                送料無料(メール便)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Concept Section (なぜ作ったか) -->
+  <section class="w-full py-12 md:py-16 bg-[#EFEFE7]">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <!-- 左：テキスト -->
+        <div class="space-y-5">
+          <h2 class="text-2xl md:text-3xl font-medium text-gray-800 border-l-4 border-gray-800 pl-4">
+            なぜ作ったか
+          </h2>
+          <div class="space-y-3 text-sm md:text-base text-gray-700 font-light leading-relaxed">
+            <p>
+              診療室で、多くの方が口にしている悩みを聞いてきました。
+            </p>
+            <p>
+              市販の歯磨き粉では、どうしても補えない何かがある。
+            </p>
+            <p>
+              患者さんとの日常の会話から、本当に必要なものが見えてきた。
+            </p>
+            <p>
+              売るためではなく、必要だったから作りました。
+            </p>
+          </div>
+        </div>
+
+        <!-- 右：世界観写真 -->
+        <div class="relative">
+          <img 
+            src="images/concept-worldview.png" 
+            alt="百花ジェル 世界観" 
+            class="w-full h-auto object-cover rounded-lg aspect-[4/3]"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ingredients Section (成分・設計思想) -->
+  <section class="w-full py-12 md:py-16 bg-[#EFEFE7]">
+    <div class="max-w-6xl mx-auto px-4 md:px-8">
+      <h2 class="text-2xl md:text-3xl font-medium text-gray-800 text-center mb-10 pb-4 border-b-2 border-gray-300">
+        成分・設計思想
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+        <!-- 左：なぜこの設計か -->
+        <div class="space-y-5 bg-white/50 p-6 rounded-lg">
+          <h3 class="text-lg md:text-xl font-medium text-gray-800 flex items-center gap-2">
+            <span class="w-1 h-6 bg-gray-800"></span>
+            なぜこの設計か
+          </h3>
+          <div class="space-y-3 text-sm md:text-base text-gray-700 font-light leading-relaxed pl-3">
+            <p>
+              泡立ちを抑えることで、口の中の隅々まで成分が届くように。
+            </p>
+            <p>
+              余計な香料や発泡剤は、使わない選択をしました。
+            </p>
+            <p>
+              シンプルであること。それが、歯科的な考え方です。
+            </p>
+          </div>
+        </div>
+
+        <!-- 右：なぜこの成分か -->
+        <div class="space-y-5 bg-white/50 p-6 rounded-lg">
+          <h3 class="text-lg md:text-xl font-medium text-gray-800 flex items-center gap-2">
+            <span class="w-1 h-6 bg-gray-800"></span>
+            なぜこの成分か
+          </h3>
+          <div class="space-y-3 text-sm md:text-base text-gray-700 font-light leading-relaxed pl-3">
+            <p>
+              やさしく、でも確かに。そのバランスを大切にしました。
+            </p>
+            <p>
+              天然由来成分を中心に選び、不要な添加物は極力避けました。
+            </p>
+            <p>
+              医療法人として、使う人に責任を持てるものを。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="w-full py-12 md:py-16 bg-[#EFEFE7]">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <h2 class="text-2xl md:text-3xl font-medium text-gray-800 mb-8 border-l-4 border-gray-800 pl-4">
+        About
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <!-- 左：テキスト -->
+        <div class="space-y-4">
+          <div class="space-y-3 text-sm md:text-base text-gray-700 font-light leading-relaxed">
+            <p>
+              医療法人として、患者さんと向き合う日々の中で、見えてきたことがあります。
+            </p>
+            <p>
+              治療だけではなく、日常のケアがどれほど大切か。
+            </p>
+            <p>
+              だからこそ、商品づくりをしています。
+            </p>
+            <p>
+              患者さんとの距離は、診療室の中だけではありません。
+            </p>
+            <p>
+              毎日の生活の中に、寄り添える存在でありたい。
+            </p>
+          </div>
+        </div>
+
+        <!-- 右：写真 -->
+        <div class="relative">
+          <img 
+            src="images/brand-about.png" 
+            alt="医療法人百花繚乱 ブランド写真" 
+            class="w-full h-auto object-cover rounded-lg aspect-[4/3]"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Topics Section -->
+  <section class="w-full pt-20 md:pt-32 pb-8 md:pb-12 bg-[#EFEFE7]">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <h2 class="text-3xl md:text-4xl font-light text-gray-800 text-center mb-16">
+        Topics
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        <article class="bg-white border border-gray-200 p-6 rounded-sm hover:shadow-md transition-shadow">
+          <p class="text-xs text-gray-400 mb-3">お知らせ</p>
+          <h3 class="text-base font-light text-gray-800 leading-relaxed">
+            年末年始期間の営業について
+          </h3>
+        </article>
+        <article class="bg-white border border-gray-200 p-6 rounded-sm hover:shadow-md transition-shadow">
+          <p class="text-xs text-gray-400 mb-3">お知らせ</p>
+          <h3 class="text-base font-light text-gray-800 leading-relaxed">
+            価格改定のお知らせ
+          </h3>
+        </article>
+        <article class="bg-white border border-gray-200 p-6 rounded-sm hover:shadow-md transition-shadow">
+          <p class="text-xs text-gray-400 mb-3">お知らせ</p>
+          <h3 class="text-base font-light text-gray-800 leading-relaxed">
+            新商品について
+          </h3>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Information Section -->
+  <section class="w-full pt-8 md:pt-12 pb-20 md:pb-32 bg-[#EFEFE7]">
+    <div class="max-w-4xl mx-auto px-4 md:px-8">
+      <h2 class="text-3xl md:text-4xl font-light text-gray-800 text-center mb-16">
+        Information
+      </h2>
+      <div class="space-y-6">
+        <div class="flex items-center gap-6 py-4 border-b border-gray-100">
+          <p class="text-xs text-gray-500 font-light w-28 flex-shrink-0">
+            2025.12.05
+          </p>
+          <p class="text-sm md:text-base text-gray-700 font-light flex-1">
+            年末年始期間の営業について
+          </p>
+        </div>
+        <div class="flex items-center gap-6 py-4 border-b border-gray-100">
+          <p class="text-xs text-gray-500 font-light w-28 flex-shrink-0">
+            2025.10.21
+          </p>
+          <p class="text-sm md:text-base text-gray-700 font-light flex-1">
+            価格改定のお知らせ
+          </p>
+        </div>
+        <div class="flex items-center gap-6 py-4 border-b border-gray-100">
+          <p class="text-xs text-gray-500 font-light w-28 flex-shrink-0">
+            2025.9.12
+          </p>
+          <p class="text-sm md:text-base text-gray-700 font-light flex-1">
+            新商品について
+          </p>
+        </div>
+      </div>
+      <div class="text-center mt-12">
+        <a href="#" class="inline-block px-6 py-2 border border-gray-300 text-gray-600 text-sm font-light rounded-sm hover:bg-gray-50 transition-colors">
+          View More
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="w-full bg-[#EFEFE7] border-t border-gray-100 mt-24">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <!-- About Us -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-800 mb-4">About Us</h3>
+          <ul class="space-y-2 text-xs text-gray-600">
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                百花ジェルについて
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                設計思想
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                わたしたちの約束
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                成分一覧
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Connect -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-800 mb-4">Connect</h3>
+          <ul class="space-y-2 text-xs text-gray-600">
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                NEWS
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                ショップリスト
+              </a>
+            </li>
+            <li>
+              <a href="contact.html" class="hover:text-gray-800 transition-colors">
+                お問い合わせ
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Info -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-800 mb-4">Info</h3>
+          <ul class="space-y-2 text-xs text-gray-600">
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                ご利用ガイド
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                よくある質問
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                ご利用規約
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                定期お届け便ご利用ガイド
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                プライバシーポリシー
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                特定商取引に関する法律に基づく表記
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-800 transition-colors">
+                会社概要
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Newsletter -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-800 mb-4">Newsletter</h3>
+          <p class="text-xs text-gray-600 mb-3">
+            最新情報をお届けします
+          </p>
+          <form class="flex flex-col gap-2" onsubmit="event.preventDefault();">
+            <input
+              type="email"
+              placeholder="email@example.com"
+              class="text-xs px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
+            />
+            <button
+              type="submit"
+              class="text-xs px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+            >
+              申し込む
+            </button>
+          </form>
+          <div class="mt-4">
+            <p class="text-xs text-gray-600 mb-2">SNS</p>
+            <div class="flex gap-3">
+              <a href="#" class="w-8 h-8 border border-gray-300 rounded flex items-center justify-center hover:bg-gray-50 transition-colors">
+                <span class="text-xs text-gray-600">f</span>
+              </a>
+              <a href="#" class="w-8 h-8 border border-gray-300 rounded flex items-center justify-center hover:bg-gray-50 transition-colors">
+                <span class="text-xs text-gray-600">📷</span>
+              </a>
+              <a href="#" class="w-8 h-8 border border-gray-300 rounded flex items-center justify-center hover:bg-gray-50 transition-colors">
+                <span class="text-xs text-gray-600">L</span>
+              </a>
+              <a href="#" class="w-8 h-8 border border-gray-300 rounded flex items-center justify-center hover:bg-gray-50 transition-colors">
+                <span class="text-xs text-gray-600">▶</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-100 pt-8">
+        <p class="text-xs text-gray-500 text-center">
+          © 2024 医療法人百花繚乱. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 固定Q&Aボタン -->
+  <div class="qa-button">
+    <div class="text-sm font-light">Q&A</div>
+    <div class="text-xs mt-1">チャットでお答え</div>
+  </div>
+
+  <script>
+    // カート管理機能
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // 定期購入の本数選択（グローバルスコープ）
+    let selectedSubscriptionQuantity = 1;
+    const subscriptionPrice = 1980;
+    const maxSubscriptionQuantity = 3;
+
+    // カートの状態を更新
+    function updateCartDisplay() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const cartBadge = document.getElementById('cart-badge');
+      
+      if (totalItems > 0) {
+        cartBadge.textContent = totalItems;
+        cartBadge.classList.remove('hidden');
+      } else {
+        cartBadge.classList.add('hidden');
+      }
+      
+      renderCartContent();
+    }
+
+    // カートの内容を表示
+    function renderCartContent() {
+      const cartContent = document.getElementById('cart-content');
+      
+      if (cart.length === 0) {
+        cartContent.innerHTML = `
+          <div class="text-center py-12">
+            <p class="text-gray-600 mb-4">あなたのカートは現在0です。</p>
+            <button id="continue-shopping" class="text-gray-700 hover:text-gray-900 underline">
+              ショッピングを続ける
+            </button>
+          </div>
+        `;
+        document.getElementById('continue-shopping').addEventListener('click', closeCart);
+      } else {
+        // テーブルヘッダー
+        let html = `
+          <div class="border-b border-gray-300 pb-2 mb-4">
+            <div class="cart-header grid grid-cols-12 gap-2 text-xs text-gray-600 font-medium">
+              <div class="col-span-5"></div>
+              <div class="col-span-2 text-center">価格</div>
+              <div class="col-span-2 text-center">数</div>
+              <div class="col-span-2 text-center">合計</div>
+              <div class="col-span-1"></div>
+            </div>
+          </div>
+          <div class="space-y-6 mb-6">
+        `;
+        
+        cart.forEach((item, index) => {
+          const itemTotal = item.price * item.quantity;
+          html += `
+            <div class="border-b border-gray-200 pb-6">
+              <div class="grid grid-cols-12 gap-4 items-start">
+                <!-- 商品画像 -->
+                <div class="col-span-5">
+                  <div class="flex gap-4">
+                    <img src="${item.image || 'images/product-main.png'}" alt="${item.name}" class="w-20 h-20 object-cover rounded border border-gray-200" />
+                    <div class="flex-1">
+                      <h3 class="text-sm font-medium text-gray-800 mb-1">${item.name}</h3>
+                      <button class="text-xs text-gray-500 hover:text-gray-700 remove-item mt-2" data-index="${index}">
+                        削除する
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- 価格 -->
+                <div class="col-span-2 text-center">
+                  <p class="text-sm text-gray-800">¥${item.price.toLocaleString()}</p>
+                </div>
+                <!-- 数量コントロール -->
+                <div class="col-span-2 text-center">
+                  <div class="flex items-center justify-center border border-gray-300 rounded">
+                    <button type="button" class="quantity-decrease-cart px-2 py-1 text-gray-600 hover:bg-gray-50" data-index="${index}" aria-label="減らす">−</button>
+                    <span class="quantity-display-cart px-3 py-1 text-sm text-gray-800 min-w-[3rem] inline-block">${item.quantity}</span>
+                    <button type="button" class="quantity-increase-cart px-2 py-1 text-gray-600 hover:bg-gray-50" data-index="${index}" aria-label="増やす">＋</button>
+                  </div>
+                </div>
+                <!-- 合計 -->
+                <div class="col-span-2 text-center">
+                  <p class="text-sm font-medium text-gray-800">¥${itemTotal.toLocaleString()}</p>
+                </div>
+                <div class="col-span-1"></div>
+              </div>
+            </div>
+          `;
+        });
+        
+        html += '</div>';
+        
+        // 小計とアクションボタン
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        html += `
+          <div class="border-t border-gray-300 pt-4 space-y-4">
+            <div class="flex justify-between items-center">
+              <span class="text-base font-medium text-gray-800">小計</span>
+              <span class="text-lg font-medium text-gray-800">¥${subtotal.toLocaleString()}</span>
+            </div>
+            <p class="text-xs text-gray-500">税込、チェックアウト時に送料が計算されます</p>
+            <div class="space-y-3 pt-2">
+              <button id="update-cart" class="w-full px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-sm hover:bg-gray-700 transition-colors">
+                カートの更新
+              </button>
+              <button id="proceed-checkout" class="w-full px-4 py-3 bg-[#36A89B] text-white text-sm font-medium rounded-sm hover:bg-[#2d8f82] transition-colors">
+                ご購入手続きへ
+              </button>
+              <button id="continue-shopping-btn" class="w-full px-4 py-2 text-gray-700 text-sm font-light hover:text-gray-900 transition-colors">
+                お買い物を続ける
+              </button>
+            </div>
+          </div>
+        `;
+        
+        cartContent.innerHTML = html;
+        
+        // イベントリスナー
+        document.querySelectorAll('.remove-item').forEach(button => {
+          button.addEventListener('click', function() {
+            const index = parseInt(this.getAttribute('data-index'));
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartDisplay();
+          });
+        });
+        
+        document.querySelectorAll('.quantity-decrease-cart').forEach(button => {
+          button.addEventListener('click', function() {
+            const index = parseInt(this.getAttribute('data-index'));
+            if (cart[index].quantity > 1) {
+              cart[index].quantity--;
+              localStorage.setItem('cart', JSON.stringify(cart));
+              updateCartDisplay();
+            }
+          });
+        });
+        
+        document.querySelectorAll('.quantity-increase-cart').forEach(button => {
+          button.addEventListener('click', function() {
+            const index = parseInt(this.getAttribute('data-index'));
+            cart[index].quantity++;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartDisplay();
+          });
+        });
+        
+        document.getElementById('continue-shopping-btn').addEventListener('click', closeCart);
+        document.getElementById('update-cart').addEventListener('click', function() {
+          updateCartDisplay();
+        });
+      }
+    }
+
+    // カートに商品を追加
+    function addToCart(name, price, quantity, image, isSubscription = false) {
+      const itemName = isSubscription ? `${name}（定期購入）` : name;
+      const existingItem = cart.find(item => item.name === itemName && item.isSubscription === isSubscription);
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({ 
+          name: itemName, 
+          price, 
+          quantity, 
+          image: image || 'images/product-main.png',
+          isSubscription: isSubscription
+        });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartDisplay();
+    }
+
+    // 定期購入の合計価格を更新
+    function updateSubscriptionTotal() {
+      const total = subscriptionPrice * selectedSubscriptionQuantity;
+      const totalPriceElement = document.getElementById('subscription-total-price');
+      if (totalPriceElement) {
+        totalPriceElement.textContent = `¥${total.toLocaleString()}`;
+      }
+    }
+
+    // カートモーダルを開く
+    function openCart() {
+      document.getElementById('cart-modal').classList.remove('translate-x-full');
+      document.getElementById('cart-overlay').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // カートモーダルを閉じる
+    function closeCart() {
+      document.getElementById('cart-modal').classList.add('translate-x-full');
+      document.getElementById('cart-overlay').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // イベントリスナー
+    document.addEventListener('DOMContentLoaded', function() {
+      // カートアイコンクリック
+      document.getElementById('cart-button').addEventListener('click', openCart);
+      
+      // カート閉じるボタン
+      document.getElementById('cart-close').addEventListener('click', closeCart);
+      
+      // オーバーレイクリック
+      document.getElementById('cart-overlay').addEventListener('click', closeCart);
+      
+      // ESCキーで閉じる
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !document.getElementById('cart-modal').classList.contains('translate-x-full')) {
+          closeCart();
+        }
+      });
+
+      // 通常購入ボタンクリック
+      const normalPurchaseBtn = document.getElementById('normal-purchase-btn');
+      if (normalPurchaseBtn) {
+        normalPurchaseBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const quantityInput = document.querySelector('.quantity-selector .quantity-input');
+          const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
+          addToCart('百花ジェル', 2960, quantity, 'images/product-main.png', false);
+          openCart();
+        });
+      }
+
+      // 定期購入関連のイベントリスナーは削除（トップページには定期購入セクションがないため）
+
+      // 定期購入ボタンクリック（トップページには定期購入セクションがないため、存在する場合のみ）
+      const subscriptionPurchaseBtn = document.getElementById('subscription-purchase-btn');
+      if (subscriptionPurchaseBtn) {
+        subscriptionPurchaseBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          // 本数が3本以下であることを確認
+          if (selectedSubscriptionQuantity > maxSubscriptionQuantity) {
+            selectedSubscriptionQuantity = maxSubscriptionQuantity;
+            updateSubscriptionTotal();
+            alert('定期購入は3本まで選択できます');
+            return;
+          }
+          if (selectedSubscriptionQuantity < 1) {
+            selectedSubscriptionQuantity = 1;
+            updateSubscriptionTotal();
+          }
+          addToCart('百花ジェル', subscriptionPrice, selectedSubscriptionQuantity, 'images/product-main.png', true);
+          openCart();
+        });
+      }
+
+      // 定期購入の本数選択ボタン（トップページには定期購入セクションがないため、存在する場合のみ）
+      const subscriptionQuantityButtons = document.querySelectorAll('.subscription-quantity-btn');
+      if (subscriptionQuantityButtons.length > 0) {
+        subscriptionQuantityButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const quantity = parseInt(this.getAttribute('data-quantity'));
+            
+            // 3本以下であることを確認（既にボタンは1本/2本/3本のみだが、念のため）
+            if (quantity > maxSubscriptionQuantity || quantity < 1) {
+              return;
+            }
+            
+            // すべてのボタンから選択状態を解除
+            document.querySelectorAll('.subscription-quantity-btn').forEach(btn => {
+              btn.classList.remove('border-[#5C4A3A]', 'bg-[#5C4A3A]', 'text-white');
+              btn.classList.add('border-gray-300', 'text-gray-700');
+            });
+            
+            // クリックされたボタンを選択状態に
+            this.classList.remove('border-gray-300', 'text-gray-700');
+            this.classList.add('border-[#5C4A3A]', 'bg-[#5C4A3A]', 'text-white');
+            
+            selectedSubscriptionQuantity = quantity;
+            updateSubscriptionTotal();
+          });
+        });
+
+        // 初期表示：1本を選択状態に
+        const firstSubscriptionBtn = document.querySelector('.subscription-quantity-btn[data-quantity="1"]');
+        if (firstSubscriptionBtn) {
+          firstSubscriptionBtn.classList.remove('border-gray-300', 'text-gray-700');
+          firstSubscriptionBtn.classList.add('border-[#5C4A3A]', 'bg-[#5C4A3A]', 'text-white');
+        }
+        // 定期購入セクションが存在する場合のみ合計を更新
+        if (document.getElementById('subscription-total-price')) {
+          updateSubscriptionTotal();
+        }
+      }
+
+      // 初期表示
+      updateCartDisplay();
+    });
+  </script>
+</body>
+</html>
